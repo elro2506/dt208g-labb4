@@ -1,1 +1,16 @@
 <p>home works!</p>
+
+
+@if(error()) {
+    <div class="error">
+        <p>{{ error() }} </p>
+    </div>
+}
+
+@for(kurs of kursschema(); track kurs.code) {
+    <article>
+        <h3>{{ kurs.coursename }}</h3>
+        <p>{{ kurs.progression }} </p>
+        <p><a [href]="kurs.syllabus" target="_blank">Länk till kursplan</a></p>
+    </article>
+}
