@@ -7,10 +7,24 @@
     </div>
 }
 
-@for(kurs of kursschema(); track kurs.code) {
-    <article>
-        <h3>{{ kurs.coursename }}</h3>
-        <p>{{ kurs.progression }} </p>
-        <p><a [href]="kurs.syllabus" target="_blank">Länk till kursplan</a></p>
-    </article>
-}
+<input type="text" placeholder="Sök efter kurskod, namn eller progression">
+<table>
+    <thead>
+<tr>
+    <th>Kurskod</th>
+    <th>Kurskod</th>
+    <th>Kurskod</th>
+    <th>Kursplan</th>
+</tr>
+    </thead>
+    <tbody>
+        @for(kurs of kursschema(); track kurs.code) {
+        <tr>
+            <td>{{ kurs.code }}</td>
+            <td>{{ kurs.coursename }}</td>
+            <td>{{ kurs.progression }}</td>
+            <td><a [href]="kurs.syllabus" target="_blank">Länk till kursplan</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
