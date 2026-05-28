@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Kursschema } from '../models/kursschema';
 import { Services } from '../services';
 
@@ -11,6 +11,27 @@ import { Services } from '../services';
 export class Home {
 kursschema = signal<Kursschema[]>([]);
 error = signal<string | null>(null);
+sortColumn = signal<keyof Kursschema>('code');
+sortBy(column: keyof Kursschema) {
+  this.sortColumn.set(column);
+}
+
+filterText = signal("");
+filterCourses = computed(() => {
+  const filter = this.filterText().trim().toLocaleLowerCase();
+  const column = this.sortColumn();
+
+  let courses = this.kursschema();
+
+  if(filter) {
+    courses = courses.filter(kurs => 
+    kurs.code.toLowerCase().includes(filter) || 
+    kurs.coursename.toLowerCase().includes(filter)
+  );
+}
+
+return [...courses].sort((a, b) => String(a[column]).localeCompare(String(b[column])));
+});
 
 kursschemaServices = inject(Services);
 

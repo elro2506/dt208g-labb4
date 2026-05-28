@@ -1,30 +1,37 @@
-<p>home works!</p>
-
-
 @if(error()) {
-    <div class="error">
-        <p>{{ error() }} </p>
-    </div>
+<div class="error">
+    <p>{{ error() }} </p>
+</div>
 }
+<main>
+    <p>Här kan du se och filtrera kurser i Webbutvecklingsprogrammet. Du kan även sortera dem i bokstavsordning genom
+        att klicka
+        på respektive rubrik.
+    </p>
+    <section class="filter">
+        <label for="filter">Filtrera kurser:</label><br>
+        <input type="text" id="filter" placeholder="Sök efter kurskod, namn eller progression" [value]="filterText()"
+            (input)="filterText.set($any($event.target).value)">
+    </section><br>
 
-<input type="text" placeholder="Sök efter kurskod, namn eller progression">
-<table>
-    <thead>
-<tr>
-    <th>Kurskod</th>
-    <th>Kurskod</th>
-    <th>Kurskod</th>
-    <th>Kursplan</th>
-</tr>
-    </thead>
-    <tbody>
-        @for(kurs of kursschema(); track kurs.code) {
-        <tr>
-            <td>{{ kurs.code }}</td>
-            <td>{{ kurs.coursename }}</td>
-            <td>{{ kurs.progression }}</td>
-            <td><a [href]="kurs.syllabus" target="_blank">Länk till kursplan</a></td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th (click)="sortBy('code')">Kurskod</th>
+                <th (click)="sortBy('coursename')">Kursnamn</th>
+                <th (click)="sortBy('progression')">Progression</th>
+                <th>Kursplan</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(kurs of filterCourses(); track kurs.code) {
+            <tr>
+                <td>{{ kurs.code }}</td>
+                <td>{{ kurs.coursename }}</td>
+                <td>{{ kurs.progression }}</td>
+                <td><a [href]="kurs.syllabus" target="_blank">Länk till kursplan</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</main>
